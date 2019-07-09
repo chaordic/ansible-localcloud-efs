@@ -18,7 +18,7 @@
     when: ansible_version.major < 2 or (ansible_version.major == 2 and ansible_version.minor < 1)
 
   - name: Create EFS mount point
-    file: path='{{efs_mount_point}}' state=directory owner='{{box_user}}'
+    file: path='{{efs_mount_point}}' state=directory owner='{{box_user}}' group='{{box_group}}'
 
   - name: Query for EFS availability zone
     uri: url='http://169.254.169.254/latest/meta-data/placement/availability-zone' return_content=yes
@@ -26,8 +26,15 @@
 
   - name: Mount EFS volume
     mount:
-      name='{{efs_mount_point}}'
-      src='{{_availability_zone.content}}.{{efs_id}}.efs.{{aws_region}}.amazonaws.com:'
-      fstype=nfs4
-      opts='nfsvers=4.1,_netdev'
-      state=mounted
+      name: '{{efs_mount_point}}'
+      src: '{{_availability_zone.content}}.{{efs_id}}.efs.{{aws_region}}.amazonaws.com:'
+      fstype: nfs4
+      opts: 'nfsvers=4.1'
+      state: mounted
+
+  - name: ensure chown on the mounted volume
+    file:
+      path: '{{efs_mount_point}}'
+      owner: '{{box_user}}'
+      group: '{{box_group}}'
+      mode: '{{efs_mount_permissions}}'
