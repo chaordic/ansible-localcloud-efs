@@ -19,14 +19,11 @@ User that will be the owner of mounted volume. The role assumes user exists and 
 `box_group`
 Group that will be the owner of mounted volume. The role assumes group exists and will default to root.
 
-`efs_id`
-Elastic File System id. You get this one when you create a new filesystem in AWS
+`efs_dns`
+Elastic File System DNS name. You get this when you create a new filesystem in AWS
 
 `efs_mount_point`
 Where your filesystem will be mounted to on the host. This defaults to /efs_data
-
-`aws_region`
-Your AWS region where this filesistem resides. Your filesystem and your EC2 instances must be in the same region. This will default to eu-west-1
 
 
 Dependencies
@@ -41,13 +38,12 @@ Example Playbook
 ```yml
 - hosts: servers
   roles:
-    - dmitrybelyakov.localcloud-efs
+    - chaordic.localcloud-efs
 
   vars:
     box_user: ubuntu
-    efs_id: fs-c87236
+    efs_dns: fs-q85x6051.efs.us-east-1.amazonaws.com
     efs_mount_point: /efs_data
-    aws_region: eu-west-1
 
 ```
 
