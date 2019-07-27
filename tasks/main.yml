@@ -34,3 +34,4 @@
       owner: '{{box_user}}'
       group: '{{box_group}}'
       mode: '{{efs_mount_permissions}}'
+    when: efs_mount_chown
