@@ -25,7 +25,7 @@
       name: '{{efs_mount_point}}'
       src: '{{ efs_dns }}:{{ efs_dir }}'
       fstype: nfs4
-      opts: "{{ 'nfsvers=4.1' + efs_opts }}"
+      opts: "{{ 'nfsvers=4.1' + efs_mount_opts }}"
       state: mounted
 
   - name: ensure chown on the mounted volume
